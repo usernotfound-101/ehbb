@@ -1,0 +1,10 @@
+torch
+numpy
+pandas
+matplotlib
+tokenizers>=0.20
+huggingface_hub>=0.25
+wandb>=0.18
+rapidfuzz>=3.0
+rouge-score>=0.1.2
+nltk
