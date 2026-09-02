@@ -566,8 +566,8 @@ class ModelConfig:
     d_model: int = 512
     n_heads: int = 8
     n_kv_heads: int = 2
-    n_enc_layers: int = 3
-    n_dec_layers: int = 3
+    n_enc_layers: int = 2
+    n_dec_layers: int = 2
     d_ff: int = 2048
     dropout: float = 0.1
     max_len: int = 1100
@@ -600,7 +600,7 @@ CONFIGS = {
     ),
     "C5_blt": ModelConfig(
         name="C5_blt", pe_type="sinusoidal", attn_type="mha", norm_type="layernorm", tokenization="blt",
-        d_model=512, d_ff=2048, n_enc_layers=3, n_dec_layers=3, patch_size=4, n_local_layers=1,
+        d_model=512, d_ff=2048, n_enc_layers=2, n_dec_layers=2, patch_size=4, n_local_layers=1,
         max_len=2816,  # bytes; longest source lines run up to ~2670 chars
     ),
 }
@@ -1182,6 +1182,12 @@ from torch.utils.data import DataLoader
 
 ALL_CONFIGS = ["C1_base", "C2_rope", "C3_gqa", "C4_rmsnorm", "C5_blt"]
 
+# Fill in your own values below (share them with collaborators out of band --
+# chat/DM, not via this committed file). WANDB_API_KEY/HF_TOKEN environment
+# variables, if already set, still take precedence over these.
+_HARDCODED_WANDB_API_KEY = "REPLACE_WITH_YOUR_WANDB_API_KEY"
+_HARDCODED_HF_TOKEN = "REPLACE_WITH_YOUR_HF_TOKEN"
+
 
 # ---------------------------------------------------------------------------
 # Optimizer / schedule / train-eval loops
@@ -1559,6 +1565,9 @@ def build_argparser():
 
 def main(argv=None):
     args = build_argparser().parse_args(argv)
+
+    os.environ.setdefault("WANDB_API_KEY", _HARDCODED_WANDB_API_KEY)
+    os.environ.setdefault("HF_TOKEN", _HARDCODED_HF_TOKEN)
 
     import random
     import numpy as np
